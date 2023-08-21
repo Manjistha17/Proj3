@@ -1,7 +1,12 @@
 ---
-# Exercise: Define Ansible Playbook
-- name: "hello world webpage" 
-  hosts: localhost
+# Exercise for setting up a web server in an EC
+- name: Exercise for setting up a web server in an EC 
+  # hosts: ubuntu
+  # Use the public IP if the VM is already created
+  hosts: 54.80.72.74
+  user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
   roles:
-   - prepare
-   - apache
+   - setup
