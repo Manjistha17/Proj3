@@ -28,18 +28,17 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-      		# You can get this ID in the section where you registered the SSH Key
-          	fingerprints: ["d8:95:a6:d8:2d:8e:d0:11:9a:21:52:af:5d:6e:0f:4d"] 
+      		
+          fingerprints: ["d8:95:a6:d8:2d:8e:d0:11:9a:21:52:af:5d:6e:0f:4d"] 
       - run:
           name: Install Ansible
-          command: |
+          command: apk add --update ansible
             # Install Ansible
       - run:
           name: Run Playbook and Configure server
-          command: |
+          command: ansible-playbook -i inventory.txt main.yml
 workflows:
   # Name the workflow "welcome"
       myWorkflow:
         jobs:
-       
         - configure_infrastructure
