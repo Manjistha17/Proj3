@@ -1,0 +1,7 @@
+---
+# Exercise: Define Ansible Playbook
+- name: "hello world webpage" 
+  hosts: localhost
+  roles:
+   - prepare
+   - apache
