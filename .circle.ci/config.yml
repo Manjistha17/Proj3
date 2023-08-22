@@ -53,8 +53,8 @@ jobs:
               return 1
             fi        
 workflows:
-  # Name the workflow "welcome"
+  
       myWorkflow:
         jobs:
-       
         - create_infrastructure
+        
