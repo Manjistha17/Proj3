@@ -11,8 +11,8 @@ commands:
               # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
               when: on_fail
               command: |
-                sudo apt-get update
-                sudo apt-get install awscli
+                apt-get update
+                apt-get install awscli -y
                 aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}  
 
 jobs:
