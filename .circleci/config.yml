@@ -40,4 +40,4 @@ workflows:
   # Name the workflow "welcome"
       myWorkflow:
         jobs:
-        - configure_infrastructure
+        - create_infrastructure
