@@ -3,7 +3,6 @@ orbs:
   
   welcome: circleci/welcome-orb@0.4.1
 commands:
-      # Exercise - Rollback
       destroy_environment:
         steps:
           - run:
@@ -47,8 +46,20 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: ansible-playbook -i inventory.txt main.yml
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run:
+          name: Test job
+          # Fail the job intentionally to simulate an error.
+          command:  return 1
+      - destroy_environment          
+
+          
 workflows:
   # Name the workflow "welcome"
       myWorkflow:
         jobs:
         - create_infrastructure
+        - smoke_test
