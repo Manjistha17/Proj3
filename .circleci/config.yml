@@ -11,8 +11,7 @@ commands:
               # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
               when: on_fail
               command: |
-                apt-get update
-                apt-get install awscli -y
+            
                 aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}  
 
 jobs:
@@ -57,11 +56,24 @@ jobs:
           # Fail the job intentionally to simulate an error.
           command:  return 1
       - destroy_environment          
-
+  create_and_deploy_front_end:
+    docker:
+     - image: amazon/aws-cli
+    steps:
+     - checkout
+     - run:
+         name: Execute bucket.yml - Create Cloudformation Stack
+         command: |
+           aws cloudformation deploy \
+           --template-file bucket.yml \
+           --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
+           --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
+     # Uncomment the step below if yoou wish to upload all contents of the current directory to the S3 bucket
+      - run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
           
 workflows:
   # Name the workflow "welcome"
       myWorkflow:
         jobs:
-        - create_infrastructure
-        - smoke_test
+        - create_and_deploy_front_end
+       
