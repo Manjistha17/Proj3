@@ -62,6 +62,7 @@ jobs:
     steps:
       - checkout
       - run:
+<<<<<<< HEAD
           name: Execute bucket.yml - Create Cloudformation Stack
           command: |
             aws cloudformation deploy \
@@ -114,6 +115,17 @@ jobs:
             export OldBucketID=$(cat ~/textfile.txt)
             aws s3 rm "s3://${OldBucketID}" --recursive                    
             
+=======
+         name: Execute bucket.yml - Create Cloudformation Stack
+         command: |
+           aws cloudformation deploy \
+           --template-file bucket.yml \
+           --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
+           --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
+     # Uncomment the step below if yoou wish to upload all contents of the current directory to the S3 bucket
+      - run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+          
+>>>>>>> 265a6bac38ce478e383b4ebe0d125b38fd778ef3
 workflows:
       my_workflow:
         jobs:
